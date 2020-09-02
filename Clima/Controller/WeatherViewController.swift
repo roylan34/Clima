@@ -2,8 +2,7 @@
 //  ViewController.swift
 //  Clima
 //
-//  Created by Angela Yu on 01/09/2019.
-//  Copyright © 2019 App Brewery. All rights reserved.
+//  Created by Roelan Geil Eroy on 08/29/2020.
 //
 
 import UIKit
@@ -14,6 +13,7 @@ class WeatherViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var searchTextField: UITextField!
+    var weather = WeatherModel();
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,8 +36,6 @@ class WeatherViewController: UIViewController, UITextFieldDelegate {
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
        //can use textField.text on above if we dont care what textfield could trigger.
         if(searchTextField.text != ""){
-            searchTextField.placeholder = "Search";
-            searchTextField.text = "";
             return true;
         }
         else{
@@ -47,7 +45,13 @@ class WeatherViewController: UIViewController, UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
+        if let search = searchTextField.text {
+            weather.fetchWeather(cityName: search)
+            
+        }
+        searchTextField.placeholder = "Search";
         searchTextField.text = "";
+        
     }
 
 
