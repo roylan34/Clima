@@ -7,14 +7,14 @@
 
 import Foundation
 
-struct WeatherUtil {
+struct WeatherUtils {
     
     let conditionId: Int
     let cityName: String
     let temperature: Double
     
     //Computed properties
-    var conditioName: String {
+    var conditionName: String {
         switch conditionId {
         case 200...232:
             return "cloud.bolt"
