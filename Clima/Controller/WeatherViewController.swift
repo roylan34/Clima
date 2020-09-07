@@ -7,19 +7,20 @@
 
 import UIKit
 
-class WeatherViewController: UIViewController, UITextFieldDelegate {
-
+class WeatherViewController: UIViewController, UITextFieldDelegate, WeatherManagerDelegate {
+    
     @IBOutlet weak var conditionImageView: UIImageView!
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var searchTextField: UITextField!
-    var weather = WeatherModel();
+    var weather = WeatherManager();
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
         searchTextField.delegate = self;
+        weather.delegate = self;
     }
     
     @IBAction func onSearch(){
@@ -34,7 +35,7 @@ class WeatherViewController: UIViewController, UITextFieldDelegate {
     }
     
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-       //can use textField.text on above if we dont care what textfield could trigger.
+        //can use textField.text on above if we dont care what textfield could trigger.
         if(searchTextField.text != ""){
             return true;
         }
@@ -53,7 +54,20 @@ class WeatherViewController: UIViewController, UITextFieldDelegate {
         searchTextField.text = "";
         
     }
-
-
+    
+    func didUpdateWeather(_ weatherData: WeatherModel) {
+        DispatchQueue.main.async {
+            self.temperatureLabel.text = weatherData.temperatureString
+            self.cityLabel.text = weatherData.cityName
+            self.conditionImageView.image = UIImage(systemName: weatherData.conditionName )
+        }
+    }
+    
+    func didFailedWithError(_ error: Error) {
+        print("Eroyzz");
+        print(error);1
+    }
+    
+    
 }
 
