@@ -7,7 +7,7 @@
 
 import UIKit
 
-class WeatherViewController: UIViewController, UITextFieldDelegate, WeatherManagerDelegate {
+class WeatherViewController: UIViewController {
     
     @IBOutlet weak var conditionImageView: UIImageView!
     @IBOutlet weak var temperatureLabel: UILabel!
@@ -27,7 +27,11 @@ class WeatherViewController: UIViewController, UITextFieldDelegate, WeatherManag
         searchTextField.endEditing(true);
         print(searchTextField.text!)
     }
-    
+
+}
+
+//MARK: - UITextFieldDelegate
+extension WeatherViewController: UITextFieldDelegate{
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         searchTextField.endEditing(true);
         print(searchTextField.text!);
@@ -54,20 +58,21 @@ class WeatherViewController: UIViewController, UITextFieldDelegate, WeatherManag
         searchTextField.text = "";
         
     }
-    
+}
+
+//MARK: - WeatherDelegate
+extension WeatherViewController: WeatherManagerDelegate{
     func didUpdateWeather(_ weatherData: WeatherModel) {
-        DispatchQueue.main.async {
-            self.temperatureLabel.text = weatherData.temperatureString
-            self.cityLabel.text = weatherData.cityName
-            self.conditionImageView.image = UIImage(systemName: weatherData.conditionName )
-        }
-    }
-    
-    func didFailedWithError(_ error: Error) {
-        print("Eroyzz");
-        print(error);1
-    }
-    
-    
+           DispatchQueue.main.async {
+               self.temperatureLabel.text = weatherData.temperatureString
+               self.cityLabel.text = weatherData.cityName
+               self.conditionImageView.image = UIImage(systemName: weatherData.conditionName )
+           }
+       }
+       
+       func didFailedWithError(_ error: Error) {
+           print("Eroyzz");
+           print(error);
+       }
 }
 
