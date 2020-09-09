@@ -5,16 +5,26 @@
 //  Created by Roelan Geil Eroy on 9/2/20.
 //
 import Foundation
+import CoreLocation
 
 struct WeatherManager{
     private var API_URL = "https://api.openweathermap.org/data/2.5/weather?appid=3cb4c078118e262bc712c64b377023aa&units=metric";
     
     var delegate: WeatherManagerDelegate?
     
+    func fetchWeatherByCoordinate(lat: CLLocationDegrees, lon: CLLocationDegrees ){
+        let urlSource = "\(API_URL)&lat=\(lat)&lon=\(lon)";
+               self.getRequest(url: urlSource);
+    }
+    
     func fetchWeather(cityName:String){
         let urlSource = "\(API_URL)&q=\(cityName)";
-        
-        if let url =  URL(string: urlSource) {
+        self.getRequest(url: urlSource);
+
+    }
+    
+    func getRequest(url: String){
+        if let url =  URL(string: url) {
             
             let session = URLSession(configuration: .default)
             
@@ -36,7 +46,6 @@ struct WeatherManager{
             }
             task.resume()
         }
-        
     }
     
     //    func sessionCompleteHandler(data: Data?, response: URLResponse?, error: Error?) {
